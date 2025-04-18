@@ -1,0 +1,22 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          my-client:
+            client-id:
+            client-secret:
+            authorization-grant-type: client_credentials
+            scope:
+            provider: okta
+        provider:
+          okta:
+            token-uri:
+
+logging:
+  level:
+    org.springframework: DEBUG
+    org.springframework.web: DEBUG
+debug: true
+server:
+  port: 8081
