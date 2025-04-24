@@ -3,15 +3,31 @@ spring:
     oauth2:
       client:
         registration:
-          my-client:
-            client-id:
-            client-secret:
+          read-only-client:
+            client-id: your-read-client-id
+            client-secret: your-read-client-secret
             authorization-grant-type: client_credentials
-            scope:
-            provider: okta
+            scope: read
+            provider: okta-read
+          read-write-client:
+            client-id: your-write-client-id
+            client-secret: your-write-client-secret
+            authorization-grant-type: client_credentials
+            scope: write
+            provider: okta-write
         provider:
-          okta:
-            token-uri:
+          okta-read:
+            token-uri: https://your-okta-domain.com/oauth2/v1/token
+          okta-write:
+            token-uri: https://your-other-okta-domain.com/oauth2/v1/token
+
+destination-apis:
+  read-api:
+    url: "https://read-api.example.com/data"
+    client-id: "read-only-client"
+  write-api:
+    url: "https://write-api.example.com/update"
+    client-id: "read-write-client"
 
 logging:
   level:

@@ -4,14 +4,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.*;
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.*;
-import org.springframework.security.oauth2.client.web.reactive.function.client.*;
+import org.springframework.security.oauth2.client.web.DefaultReactiveOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.web.server.ServerOAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.server.WebSessionServerOAuth2AuthorizedClientRepository;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class WebClientConfig {
+public class WebClientWithOktaConfig {
 
     @Bean
     public ServerOAuth2AuthorizedClientRepository clientRepository() {
@@ -35,13 +33,7 @@ public class WebClientConfig {
     }
 
     @Bean
-    public WebClient webClient(ReactiveOAuth2AuthorizedClientManager manager) {
-        ServerOAuth2AuthorizedClientExchangeFilterFunction oauth =
-                new ServerOAuth2AuthorizedClientExchangeFilterFunction(manager);
-        oauth.setDefaultClientRegistrationId("my-client");
-
-        return WebClient.builder()
-                .filter(oauth)
-                .build();
+    public WebClientFactory webClientFactoryService(ReactiveOAuth2AuthorizedClientManager manager) {
+        return new WebClientFactory(manager);
     }
 }
